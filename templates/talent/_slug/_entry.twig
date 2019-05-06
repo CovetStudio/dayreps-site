@@ -1,0 +1,49 @@
+
+{% extends "_layouts/main" %}
+{% block main %}
+<style>
+.logo {
+display:none
+}
+.logo-black {
+display:block !important
+}
+</style>
+
+<div class="row main">
+    <h2>{{ entry.title }}</h2>
+    <div class="clr"></div>
+
+
+HE
+<div class="images-grid images-grid-demo">
+
+{% for asset in entry.featuredImage %}
+
+        {% switch asset.kind %}
+
+          {% case "image" %}
+
+                    <div class="grid-item"><img class="replace" src="{{ asset.getUrl() }}" width="{{ asset.width }}" height="{{ asset.height }}"></div>
+
+
+          {% case "video" %}
+          <div class="grid-item">
+            <video class="vid-grid" width="100%" height="100%" preload= "true" loop = "loop" muted autoplay>
+              <source src="{{ asset.getUrl() }}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            </div>
+        {% endswitch %}
+
+
+{% else %}
+    <p>Nope, no images here :(</p>
+{% endfor %}
+
+
+
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+
+{% extends "_layouts/main" %}
+{% block main %}
+<style>
+.logo {
+    display:none
+}
+.logo-black {
+    display:block !important
+}
+</style>
+
+<br>
+<div class="row main">
+
+<br><br><br>
+
+    <div class="gridzy gridzySkinFullOverlay" data-gridzy-spaceBetween="20" data-gridzy-desiredHeight="400">
+        {% for entry in craft.entries.section('talent').limit(10).level('1') %}
+            {% for asset in entry.featuredImage %}
+
+                {% switch asset.kind %}
+                {% case "image" %}
+
+                <div>
+                    <a href="{{ entry.url }}">
+                        <h3 class="item-title gridzyCaption">{{ entry.title }}</h3>
+                        <img class="gridzyImage" data-gridzylazysrc="{{ entry.featuredImage.one().getUrl('talentthumb') }}">
+                    </a>
+                </div>
+
+                {% case "video" %}
+                
+                <div>
+                    <a href="{{ entry.url }}">
+                         <h3 class="item-title gridzyCaption">{{ entry.title }}</h3>
+                        <video class="vid-grid" width="100%" height="100%" preload= "true" loop = "loop" muted autoplay>
+                        <source src="{{ asset.getUrl() }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                        </video>
+                    </a>
+                </div>
+                
+                {% endswitch %}
+
+            {% endfor %} 
+        {% endfor %} 
+
+    </div> 
+  
+</div>
+{% endblock %}

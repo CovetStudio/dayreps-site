@@ -1,0 +1,87 @@
+
+{% extends "_layouts/main" %}
+{% block main %}
+<style>
+.logo {
+display:none
+}
+.logo-black {
+display:block !important
+}
+.talent-header {
+    margin: 30px 0 10px 0
+}
+.talent-header h2 {
+    display:inline-block;
+    float:left;
+    margin: 0;
+}
+.talent-header #nav {
+    margin:10px;
+    line-height:1.2;
+    display:inline-block ;
+    padding:0 0 0 10px
+}
+.talent-header #nav a {
+    opacity:.6;
+}
+</style>
+
+<div class="main">
+<div class="talent-header">
+    <h2>{{ entry.title }}</h2>
+{% set entries = craft.entries({
+    'section' : 'talent',
+    'descendantOf' : entry.id
+}) %}
+
+<ul id="nav">
+    {% nav entry in entries %}
+        <li>
+            <a href="{{ entry.url }}">{{ entry.title }}</a>
+            {% ifchildren %}
+                <ul>
+                    {% children %}
+                </ul>
+            {% endifchildren %}
+        </li>
+    {% endnav %}
+</ul>
+</div>
+
+
+    <div class="clr"></div>
+
+    <div class="gridzy gridzySkinFullOverlay" data-gridzy-spaceBetween="20" data-gridzy-desiredHeight="400">
+
+    {% for block in entry.portfolio.all() %}
+   
+        {% switch block.type.handle %}
+
+
+        {% case "portfolioItems" %} 
+
+        <div class="item">
+            {% for image in block.portfolioImage.all() %}
+            <a data-fancybox="gallery" href="{{ image.getUrl() }}">
+                <h3 class="gridzyCaption">{{ block.imageTitle }}</h3>
+                <img class="gridzyImage" data-gridzylazysrc="{{ image.getUrl() }}" width="{{ image.getWidth() }}" height="{{ image.getHeight() }}" alt="{{ image.title }}">
+                </a>
+            {% endfor %}
+        </div>
+
+        {% case "details" %} 
+
+        <div class="item">
+            <p><span class="orange">{{ block.benefit }}</span> - {{ block.description }}</p>
+            <h3 class="sectionHead">{{ block.imageTitle }}</h3>
+        </div>
+
+        {% endswitch %}
+    
+    {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}
